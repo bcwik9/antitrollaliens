@@ -8,8 +8,8 @@ class AlienblockerController < ApplicationController
     @question = File.open(file).readlines.join(' ').gsub("\n",'').gsub(/\s+/, ' ').strip
     
     # generate a list of random words that the user has to ignore
-    words = @question.downcase.gsub(/[^a-z0-9\s]/i, '').split(' ')
-    unique_words = words.uniq # gsub is to remove puncuation
+    words = @question.downcase.gsub(/[^a-z0-9\s]/i, '').split(' ') # gsub is to remove puncuation
+    unique_words = words.uniq
     # change the number of words we ask to exclude
     case unique_words.size
     when 0,1
@@ -19,13 +19,14 @@ class AlienblockerController < ApplicationController
     else
       num_samples = 3
     end
-    @ignore = unique_words.sample(num_samples)
+    @ignore = unique_words.sample(num_samples) # get some random words to ignore
 
     # figure out the answer
     word_counts = {} # key is word, value is count
     (unique_words - @ignore).each do |word|
       word_counts[word] = words.count(word)
     end
+    # serialize the hash and encrypt it to prevent cheating
     @answer = Marshal.dump(word_counts).encrypt(:symmetric, :algorithm => 'des-ecb', :password => Rails.application.secrets.secret_base_key.to_s)
   end
 
@@ -35,7 +36,7 @@ class AlienblockerController < ApplicationController
     @ignore = params[:ignore]
     @question = params[:question]
     
-    # decrypt the answer
+    # decrypt the answer and turn it back in to a hash
     decrypted_answer = Marshal.load(@answer.decrypt(:symmetric, :algorithm => 'des-ecb', :password => Rails.application.secrets.secret_base_key.to_s))
     
     # build a hash out of the user input and see if it's the same as the answer
@@ -50,6 +51,8 @@ class AlienblockerController < ApplicationController
       i += 2 
     end
     @correct = false if decrypted_answer != user_word_counts_hash
+
+    # send http response based on if they are a troll or not
     if @correct
       render status: :ok
     else
