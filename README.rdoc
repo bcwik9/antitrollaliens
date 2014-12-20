@@ -1,0 +1,11 @@
+* Server is running at: http://54.174.245.61:8000/
+
+== STEPS TO RUN SERVER LOCALLY
+* clone this repository: git clone https://github.com/bcwik9/antitrollaliens.git
+* run: apt-get install rails
+* run: apt-get install libsqlite3-dev
+* cd to: alientrolls
+* run: bundle install
+* run: source run.sh
+
+* Run tests: rake test

@@ -1,0 +1,21 @@
+<h1>Hello!</h1>
+<p>We need to determine you aren't an alien troll!</p>
+<p>Look at the text to process and tell me the number of occurances for each word, except for the words to exclude. Don't include punctuation....</p>
+<h3>WORDS TO EXCLUDE:</h3>
+<% @ignore.each do |word| %>
+<%= word %>
+<br>
+<% end %>
+<h3>WORDS TO PROCESS:</h3>
+<%= @question %>
+<br>
+<br>
+<p>Enter your response in the form of: word,number of occurances,word,number of occurances, etc etc:</p>
+<%= form_tag("alienblocker/process_input", method: "get") do %>
+  Word count:
+  <%= text_field_tag(:user_input) %>
+  <%= hidden_field_tag(:answer, @answer) %>
+  <%= hidden_field_tag(:question, @question) %>
+  <%= hidden_field_tag(:ignore, @ignore) %>
+  <%= submit_tag("Check my answer!") %>
+<% end %>

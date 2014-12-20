@@ -1,0 +1,2 @@
+module AlienblockerHelper
+end
