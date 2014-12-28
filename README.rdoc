@@ -1,5 +1,3 @@
-* Server is running at: http://54.175.49.149:8000/
-
 == STEPS TO RUN SERVER LOCALLY
 * clone this repository
 * run: apt-get install rails
