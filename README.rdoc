@@ -1,3 +1,6 @@
+== ABOUT
+Simple rails site which asks user to input number of words in a sentence, excluding some words, then determines if the users answer is correct.
+
 == STEPS TO RUN SERVER LOCALLY
 * clone this repository
 * run: apt-get install rails
